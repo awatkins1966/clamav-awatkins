@@ -708,7 +708,7 @@ unsigned char *cl_hash_data(const char *alg, const void *buf, size_t len, unsign
     EVP_MD *md;
     unsigned int i;
     size_t cur;
-    int winres = 0;
+    bool win_exception = false;
 
     if (OPENSSL_VERSION_NUMBER >= 0x30000000L) {
         /* Bypass FIPS restrictions the OpenSSL 3.0 way */
@@ -773,7 +773,7 @@ unsigned char *cl_hash_data(const char *alg, const void *buf, size_t len, unsign
         }
         EXCEPTION_POSTAMBLE
 
-        if (winres) {
+        if (win_exception) {
             if (!(obuf))
                 free(ret);
 
